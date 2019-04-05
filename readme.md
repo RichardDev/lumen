@@ -1,21 +1,18 @@
-# Lumen PHP Framework
+# Desafio b2w
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+# Requisitos
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+PHP 7.1 em diante
+Laravel/Lumen 5.8 https://lumen.laravel.com/docs/5.8
+Composer https://getcomposer.org/doc/00-intro.md
+MongoDb 4 https://docs.mongodb.com/
 
-## Official Documentation
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Criação de uma api que irá cadastrar, remover e consultar os dados dos planetas da série de filmes Star Wars.
+Api com dados sobre a franquia StarWars: https://swapi.co/
 
-## Security Vulnerabilities
+# Como executar o projeto.
+Você deve clonar este repositório na sua máquina local e realizar a instalação dos pacotes necessários via composer comando composer install.
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Testes Automatizados com PHPUnit
+Os testes foram feitos com o php unit existente dentro do próprio framework em vendor/bin/phpunit ou phpunit.bat caso esteja em abiente Windows

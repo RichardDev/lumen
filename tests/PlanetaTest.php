@@ -14,75 +14,69 @@ class PlanetaTest extends TestCase
 
      protected $faker;     
     
+     public function testCriarPlaneta() {        
+        $data = [            
+            'nome' => 'Alderaan',
+            'clima' => 'arid',
+            'terreno' => 'desert'
+        ];
+
+        $response = $this->json('POST', 'planetas/create', $data);
+
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(            
+            [   
+            "_id",
+            "nome",
+            "clima",
+            "num_filmes"
+            ]                        
+        );
+    }
+
     public function testRetornaPlanetas() {
         $this->get('/planetas');
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['*'=>
-            [   "_id",
-                "nome",
-                "clima",
-                "num_filmes"
-            ]            
+                [   "_id",
+                    "nome",
+                    "clima",
+                    "num_filmes"
+                ]            
             ]
         );
     }
 
     public function testRetornaPlanetaNome() {
-        $this->get('/planetas/nome/Alderaan');
+        $res = $this->get('/planetas/nome/Alderaan');        
         $this->seeStatusCode(200);
-        $this->seeJsonStructure(
-            ['*' =>
-                [  
-                "_id",
-                "nome",
-                "clima",
-                "num_filmes"
-                ]            
-            ]
+        $this->seeJson(            
+            [                  
+              "nome" => 'Alderaan'
+            ]            
         );
     }
 
     public function testRetornaPlanetaID() {
-        $this->get('/planetas/id/Alderaan');
+        $this->get('/planetas/id/1');
         $this->seeStatusCode(200);
-        $this->seeJsonStructure(
-            ['*' =>
-                [   
+        $this->seeJsonStructure(            
+            ['*'=>
+              [   
                 "_id",
                 "nome",
                 "clima",
                 "num_filmes"
-                ]            
+              ]            
             ]
         );
     }
 
-    public function testCriarPlaneta() {        
-        $data = [            
-            'nome' => 'Tatooine',
-            'clima' => 'arid',
-            'terreno' => 'desert'
-        ];
-
-        /*$response = $this->json('POST', 'planetas/create', $data);
-        print_r($response->response->data);
-        $this->seeStatusCode(200);*/
-        
-        $res = $this->post('/planetas/create', $data);
-        print_r($res);
+    public function testDeletaPlaneta() {  
+        $data = ['_id' => 1];
+        $this->json('POST', '/planetas/delete', $data);
         $this->seeStatusCode(200);
-        
-        /*$this->seeJsonStructure(
-            ['*' =>
-                [                                
-                "nome",
-                "clima",
-                "terreno",
-                "num_filmes",
-                "_id"
-                ]            
-            ]
-        );*/
+        $this->seeJson(['removido' => true]); 
     }
 }

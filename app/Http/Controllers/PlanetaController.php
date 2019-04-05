@@ -75,27 +75,25 @@ class PlanetaController extends Controller
      * @return Retorna um JSON com os dados do planeta inserido
      * 
      */
-    public function create(Request $request) {
-        if (!$request->isJson()) {            
-            return response()->json(['mensagem' => 'Formato inválido, o corpo da requisição dever um JSON.']);
-        }
+    public function create(Request $request) {        
         
-        $data = $request->json()->all();
+        $data = $request->all();
 
         $totalfilmes = $this->getnumeroFilmes($data['nome']);
+        
+        $res = Planeta::orderBy("_id", "desc")->get(['nome']);   
+        
+        $planeta = new Planeta();
+        $planeta->_id = (isset($res[0]) AND !empty($res[0]->getID())) ? $res[0]->getID() + 1 : 1;
+        $planeta->nome = $data['nome'];
+        $planeta->clima = $data['clima'];
+        $planeta->terreno = $data['terreno'];
+        $planeta->num_filmes = ($totalfilmes['total'] > 0) ?$totalfilmes['total']  : 0;
 
-        if ($totalfilmes['total'] > 0) {
-            $planeta = new Planeta();
-            $planeta->nome = $data['nome'];
-            $planeta->clima = $data['clima'];
-            $planeta->terreno = $data['terreno'];
-            $planeta->num_filmes = ($totalfilmes['total'] > 0) ?$totalfilmes['total']  : 0;
-
-            $planeta->save();
-            
-            return response()->json($planeta);
-        }
-        return response()->json([]);
+        $planeta->save();
+        
+        return response()->json($planeta);
+        #return response()->json([]);
     }
     
     /**
@@ -105,30 +103,33 @@ class PlanetaController extends Controller
      * 
      * @return Retorna JSON string com mensagem de sucesso da remoção ou não.
      */
-    public function delete(Request $request) {
-        if (!$request->isJson()) {            
-            return response()->json(['mensagem' => 'Formato inválido, o corpo da requisição dever um JSON.']);
-        }
-        
-
+    public function delete(Request $request) {        
         $data = $request->json()->all();
-
-        if (!empty($data)) {
-            $planeta = Planeta::find($data['_id']);
-            
-            if ($planeta->delete()) {
-                return response()->json(['Planeta removido com sucesso!']);
-            } else {
-                return response()->json(['=( Não foi possível remover o planeta.']);
-            }
+        $planeta = Planeta::find((int)$data['_id']);
+        if (!empty($planeta) AND $planeta !== null) { 
+            $planeta->delete();           
+            return response()->json(['removido'=> true]);            
         }
+        return response()->json([]);
     }
 
-    public function viewByID($id) {        
-        $planeta = Planeta::find($id);  
+    /**
+     * Busca um planeta pelo id do planeta.
+     * @params Integer $id
+     * @return Retorna JSON string com os dados do planeta.
+     */
+    public function viewByID($id) { 
+        $planeta = Planeta::where('_id', '>=', (int) $id)->get();
         return response()->json($planeta);
     }
 
+    /**
+     * Busca um planeta pelo nome do planeta.
+     * 
+     * @params String $nome
+     * 
+     *@return Retorna JSON string com os dados do planeta.
+     */
     public function viewByName($nome) {        
         $planeta = Planeta::where('nome', 'like', '%' . $nome . '%')->get();
         return response()->json($planeta);

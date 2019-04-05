@@ -14,7 +14,7 @@ class CreatePlanetaTable extends Migration
     public function up()
     {
         Schema::create('planeta', function (Blueprint $table) {
-            $table->increments("_id");
+            $table->integer("_id");
             $table->string("nome");
             $table->string("clima");
             $table->string("terreno");
