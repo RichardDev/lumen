@@ -12,8 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    return "<< -- Swapi api planets -- >>";
-    #return $router->app->version();
+    return "<< -- Swapi api planets -- >>";    
 });
 
 $router->get('/planetas', 'PlanetaController@index');

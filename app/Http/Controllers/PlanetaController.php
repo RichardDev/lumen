@@ -28,8 +28,6 @@ class PlanetaController extends Controller
         
         $planetas = Planeta::all();
 
-        $this->getnumeroFilmes('Alderaan');
-
         return response()->json($planetas);
     }
 
@@ -93,7 +91,7 @@ class PlanetaController extends Controller
         $planeta->save();
         
         return response()->json($planeta);
-        #return response()->json([]);
+        
     }
     
     /**
